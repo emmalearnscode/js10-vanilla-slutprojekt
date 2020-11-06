@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beer Wiki</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <main class="container">
-    <section class="home">
-      <div class="home__text">
-        <h1>BEER WIKI</h1>
-        <p>Feeling lucky? Spin the bottle for info about a random beer or search for something specific</p>
-      </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beer Wiki</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pridi&family=Prompt:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="home">
+        <div class="home__text">
+          <h1 class="header">BEER WIKI</h1>
+          <p>
+            Feeling lucky? Spin the bottle for info about a random beer or
+            search for something specific
+          </p>
+        </div>
 
-      <div class="home__buttons">
-      
-      <button class="btn random-btn">SPIN THE BOTTLE</button>
-      <button class="btn search-btn">SEARCH</button>
-    </div>
+        <div class="home__buttons">
+          <button class="btn js-random-btn btn--white">SPIN THE BOTTLE</button>
+          <button class="btn js-search-btn btn--purple">SEARCH</button>
+        </div>
 
-    <div class="home__img">
-      <img src="images/beer-img.png" alt="bottle-logo">
-    </div>
-    </section>
-    <section class="random-beer"></section>
-    <section class="search-section"></section>
-    <section class="more-info"></section>
-  </main>
-  <script src="js/main.js"></script>
-</body>
+        <div class="home__img">
+          <img src="images/beer-img.png" alt="bottle-logo" />
+        </div>
+      </section>
+      <section class="random-beer hide"></section>
+      <section class="search-section hide"></section>
+      <section class="more-info hide"></section>
+    </main>
+    <script src="js/main.js"></script>
+  </body>
 </html>

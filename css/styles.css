@@ -34,6 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 .container {
   max-width: 1440px;
   margin: 0 auto;
+  position:relative;
 }
 section {
   height: 100vh;
@@ -89,11 +90,14 @@ section {
 }
 /* Modal page */
 .modal {
-  background-color: rgba(0,0,0,.5);
+  background-color: rgba(0,0,0,.6);
   position: fixed;
+  top:0;
+  left: 0;
   width: 100%;
   display: grid;
   place-items: center;
+  z-index: 100;
 }
 .modal__close {
   position: absolute;
@@ -147,6 +151,74 @@ section {
   width: 90%;
   align-self: center;
   margin-bottom: 2rem;
+}
+
+/*Info Page*/
+.info button {
+  display: none;
+}
+.info__header {
+  padding: 1em;
+  text-align: center;
+  height: 100vh;
+}
+
+.info__header h1 {
+  font-size: 2.5em;
+  margin: .5em;
+}
+
+.info__header p {
+  margin-bottom: 1.5em;
+}
+
+.info__header img {
+  display: block;
+  margin: 0 auto;
+  height: 32%;
+}
+
+article.info__description {
+  background-color: white;
+  height: 100vh;
+}
+article .info__wrapper {
+  border: none;
+  color: var(--secondaryTextColor);
+  padding: 1rem;
+}
+article .info__wrapper > div {
+  border: 2px solid var(--primaryColor);
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  padding: 1rem;
+}
+article div > img {
+  width: 2rem;
+  height: 2rem;
+  margin-top: 2px;
+}
+
+.info__wrapper div {
+  display: flex;
+}
+.info__brewers-tips {
+  flex-direction: column;
+}
+.info__food-pairings {
+  flex-direction: column;
+}
+.info__wrapper ul {
+  color: var(--primaryColor);
+  margin-left: 2.5rem;
+}
+
+.info__wrapper ul li {
+  margin-left: 2.5rem;
+}
+
+.brewers-tips {
+  flex-grow: 1;
 }
 
 /* Utility */
@@ -246,9 +318,92 @@ img {
 }
 
 /*Card modal media queries*/
-@media (min-width: 375px) {
+@media (min-width: 350px) {
   .card {
     width: 300px;
     height: 600px;
 }
 }
+
+/*Info Page Media Queries - large mobile*/
+@media (min-width: 375px) {
+  .info__header {
+    padding: 1em;
+    text-align: center;
+    height: 100vh;
+  }
+  
+  .info__header h1 {
+    font-size: 2.5em;
+    
+    margin: .8em;
+  }
+  
+  .info__header p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+  }
+  
+  .info__header img {
+    display: block;
+    margin: 0 auto;
+    height: 40%;
+  }
+
+
+/*Info Page Media Queries - ipad*/
+@media (min-width: 768px) {
+  .info button {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+
+  .info__header {
+    padding: 1em;
+    text-align: left;
+    height: 300px;
+  }
+  
+  .info__header h1 {
+    font-size: 6rem;
+    margin: 30px 20px;
+  }
+  
+  .info__header p {
+    font-size: 1.8rem;
+    line-height: 1.8;
+    margin-left: 20px;
+    margin-bottom: 1.5em;
+    max-width: 95%;
+  }
+
+  .info__header img {
+    display: none;
+  }
+}
+
+/*Info Page Media Queries - desktop*/
+@media (min-width: 1000px) {
+  
+   .info__header h1 {
+    font-size: 6rem;
+    margin: 30px 50px;
+  }
+  
+  .info__header p {
+    font-size: 1.8rem;
+    line-height: 1.8;
+    margin-left: 50px;
+    margin-bottom: 1.5em;
+    max-width: 80%;
+  }
+}
+
+/*Info Page Media Queries - desktop*/
+@media (min-width: 1440px) {
+  .info__header {
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+  }

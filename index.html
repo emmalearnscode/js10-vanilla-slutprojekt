@@ -30,27 +30,87 @@
           <img src="images/beer-img.png" alt="bottle-logo" />
         </div>
       </section>
-      <section class="random-beer hide"></section>
       <section class="search-section hide"></section>
-      <section class="more-info hide"></section>
-    </main>
-    <section class="modal">
-      <div class="modal__close">
-        <h2>X</h2> 
-      </div>
-      <div class="card">
-        
-        <div class="card__img">
-          <img src="/images/beer-img.png" alt="">
-        </div>
-        <div class="card__content">
-          <h2 class="beer-name">Trashy Blonde</h2>
-          <button class="btn btn--white js-more-info-btn">MORE INFO</button>
-        </div>
-      
-        
+      <section class="info js-info">
+        <button class="btn btn--purple js-btn-home">HOME</button>
+        <header class="info__header">
+          <h1 class="beer-name">NAME</h1>
+          <p class="desc">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat,
+            iure aperiam? Suscipit maiores porro placeat ipsam iusto fugit
+            libero soluta odio, eaque exercitationem expedita voluptates
+            voluptatem officiis at! Molestiae facilis deleniti suscipit soluta
+            ea explicabo officia reiciendis modi quibusdam eaque expedita
+            cupiditate, ipsum placeat facere, fuga dignissimos eos, aliquam ex.
+          </p>
+          <img class="info__img" src="images/beer-img.png" alt="beer name" />
+        </header>
+
+        <article class="info__description">
+          <div class="info__wrapper">
+            <div class="info-container abv">
+              <div class="info-container__header">
+                <img src="images/discount.svg" />
+                <h5>Absolute volume:</h5>
+              </div>
+            </div>
+            <div class="info-container info__ingredients">
+              <div class="info-container__header">
+                <img src="images/grain.svg" />
+                <h5>Ingredients:</h5>
+              </div>
+            </div>
+            <div class="info-container info__food-pairings">
+              <div class="info-container__header">
+                <img src="images/knife_1.svg" />
+                <h5>Food pairings:</h5>
+              </div>
+              <ul class="food-pairing-list">
+                <li>Paring number 1</li>
+                <li>Paring number 2</li>
+                <li>Paring number 3</li>
+              </ul>
+            </div>
+          </div>
+          <div class="info__wrapper">
+            <div class="info-container volume">
+              <div class="info-container__header">
+                <img src="images/beaker.svg" />
+                <h5>Volume:</h5>
+              </div>
+            </div>
+            <div class="info-container hops">
+              <div class="info-container__header">
+                <img src="images/hop.svg" />
+                <h5>Hops:</h5>
+              </div>
+            </div>
+            <div class="info-container info__brewers-tips">
+              <div class="info-container__header">
+                <img src="images/beer.svg" />
+                <h5>Brewer's tips</h5>
+              </div>
+              <ul class="brewers-tips-list">
+                <li>Brewers-tips-1</li>
+                <li>Brewers-tips-1</li>
+                <li>Brewers-tips-1</li>
+              </ul>
+            </div>
+          </div>
+          <img
+            class="info__img hide"
+            src="images/beer-img.png"
+            alt="beer name"
+          />
+        </article>
       </section>
-    </div>
+    </main>
+    <section class="modal js-modal hide">
+      <div class="modal__close">
+        <h2 class="js-modal-close">X</h2>
+      </div>
+      <div class="wrapper"></div>
+    </section>
     <script src="js/main.js"></script>
   </body>
 </html>

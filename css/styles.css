@@ -180,12 +180,15 @@ section {
 
 article.info__description {
   background-color: white;
-  height: 100vh;
+  height: 120vh;
+  padding-top: 1rem;
+
 }
 article .info__wrapper {
   border: none;
   color: var(--secondaryTextColor);
-  padding: 1rem;
+  padding: 0 1rem;
+  
 }
 article .info__wrapper > div {
   border: 2px solid var(--primaryColor);
@@ -193,6 +196,7 @@ article .info__wrapper > div {
   border-radius: 10px;
   padding: 1rem;
 }
+
 article div > img {
   width: 2rem;
   height: 2rem;
@@ -205,8 +209,14 @@ article div > img {
 .info__brewers-tips {
   flex-direction: column;
 }
+.info__brewers-tips p {
+  margin-top: .5rem;
+}
 .info__food-pairings {
   flex-direction: column;
+}
+.info-container__header h5 {
+  margin-left: .5rem;
 }
 .info__wrapper ul {
   color: var(--primaryColor);
@@ -215,10 +225,6 @@ article div > img {
 
 .info__wrapper ul li {
   margin-left: 2.5rem;
-}
-
-.brewers-tips {
-  flex-grow: 1;
 }
 
 /* Utility */
@@ -325,6 +331,7 @@ img {
 }
 }
 
+
 /*Info Page Media Queries - large mobile*/
 @media (min-width: 375px) {
   .info__header {
@@ -349,6 +356,12 @@ img {
     margin: 0 auto;
     height: 40%;
   }
+
+  article.info__description {
+    height: 100vh;
+  }
+  
+}
 
 
 /*Info Page Media Queries - ipad*/
@@ -407,3 +420,4 @@ img {
     border-left: 2px solid white;
     border-right: 2px solid white;
   }
+}

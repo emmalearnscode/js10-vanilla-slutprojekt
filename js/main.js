@@ -2,8 +2,10 @@ function main() {
   const btnBottle = document.querySelector(".js-random-btn");
   const modalPage = document.querySelector(".js-modal");
   const infoPage = document.querySelector(".js-info");
+  const homePage = document.querySelector(".home");
 
   let api = "https://api.punkapi.com/v2/";
+  const dummyApi = "../dummyData/data.json";
   const apiExtend = {
     random: "beers/random",
   };
@@ -15,7 +17,8 @@ function main() {
     element.classList.toggle(className);
   }
   async function getData(extend) {
-    const result = await fetch(api.concat(extend));
+    // const result = await fetch(api.concat(extend)); // real api later use
+    const result = await fetch(dummyApi);
     const data = await result.json();
     return data;
   }
@@ -77,6 +80,11 @@ function main() {
     return newString;
   }
 
+  function renderHomePage() {
+    toggleClass(infoPage, "hide");
+    toggleClass(homePage, "hide");
+  }
+
   // Info Page
   function renderInfoPage(data) {
     hidePages();
@@ -105,9 +113,9 @@ function main() {
         <div class="info-container info__ingredients">
           <img src="images/grain.svg" />
           <h5>Malt</h5>
-    <p>${ingredientsToString(data.ingredients.malt)} ${
-      data.ingredients.yeast
-    }</p>
+    <p>${ingredientsToString(data.ingredients.malt)}</p> 
+    <h5>Yeast</h5>
+    <p>${data.ingredients.yeast}</p>
         </div>
         <div class="info-container">
         <img src="images/hop.svg" />
@@ -144,6 +152,9 @@ function main() {
     `;
     const foodPairingList = document.querySelector(".js-food-pairing-list");
     createList(data.food_pairing, foodPairingList);
+
+    const homeBtn = document.querySelector(".js-btn-home");
+    homeBtn.addEventListener("click", renderHomePage);
   }
 
   // Main Start up

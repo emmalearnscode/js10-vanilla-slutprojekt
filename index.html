@@ -9,10 +9,14 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
+    <script
+      src="https://kit.fontawesome.com/4ed2198b96.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <main class="container">
-      <section class="home">
+      <section class="home hide">
         <div class="home__text">
           <h1 class="header">BEER WIKI</h1>
           <p>
@@ -30,7 +34,87 @@
           <img src="images/beer-img.png" alt="bottle-logo" />
         </div>
       </section>
-      <section class="search-section hide"></section>
+      <section class="search-section">
+        <form action="GET">
+          <div class="search-section__heading">
+            <h1 class="header">SEARCH</h1>
+          </div>
+          <div class="search-section__input">
+            <label for="search-beer">Beer Name:</label>
+            <input
+              id="search-beer"
+              class="js-search-input"
+              name="search-beer"
+              type="text"
+            />
+          </div>
+          <h3>
+            Advanced Search <i class="js-toggle-arrow fas fa-angle-down"></i>
+          </h3>
+          <div class="search-section__advanced hide">
+            <div class="search-section__input">
+              <label for="search-beer">Hops:</label>
+              <input
+                id="search-hops"
+                class="js-search-input"
+                name="search-hops"
+                type="text"
+              />
+            </div>
+            <div class="search-section__input">
+              <label for="search-beer">Malt:</label>
+              <input
+                id="search-malt"
+                class="js-search-input"
+                name="search-malt"
+                type="text"
+              />
+            </div>
+            <div class="search-section__input">
+              <label for="search-beer">Brewed Before:</label>
+              <input
+                id="search-brewed-before"
+                class="js-search-input"
+                name="search-brewed-before"
+                type="text"
+              />
+            </div>
+            <div class="search-section__input">
+              <label for="search-beer">Brewed After:</label>
+              <input
+                id="search-brewed-after"
+                class="js-search-input"
+                name="search-brewed-after"
+                type="text"
+              />
+            </div>
+            <div class="search-section__input">
+              <label for="search-beer">Abv Greater Than:</label>
+              <input
+                id="search-abv-greater"
+                class="js-search-input"
+                name="search-abv-greater"
+                type="text"
+              />
+            </div>
+            <div class="search-section__input">
+              <label for="search-beer">Abv Less Than:</label>
+              <input
+                id="search-abv-less"
+                class="js-search-input"
+                name="search-abv-less"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="search-section__buttons">
+            <button class="js-search-submit btn btn--white" type="submit">
+              Search
+            </button>
+            <button class="js-search-cancel btn btn--purple">Cancel</button>
+          </div>
+        </form>
+      </section>
       <section class="info js-info hide"></section>
     </main>
     <section class="modal js-modal hide">

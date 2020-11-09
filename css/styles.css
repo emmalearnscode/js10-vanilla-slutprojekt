@@ -226,6 +226,57 @@ article.info__description .info-container__header {
   display: flex;
 }
 
+/* Search page */
+
+section.search-section {
+  display: grid;
+  place-items: center;
+}
+section.search-section h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  text-decoration: underline;
+}
+
+.search-section__heading {
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.search-section__heading h1.header {
+  font-size: 4em;
+}
+
+.search-section__input {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.search-section__input label {
+  font-size: 1.1m;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 1rem;
+  flex-grow: 1;
+}
+.search-section__input input {
+  border-radius: 4px;
+  padding: 1rem;
+  min-width: 60%;
+  border: 1px solid var(--primaryColor);
+}
+.search-section__input input:focus {
+  border-radius: 4px;
+  border: 1px solid var(--secondaryTextColor);
+}
+.search-section__buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 /* Utility */
 .header {
   font-size: 6em;

@@ -5,8 +5,8 @@ font-family: 'Prompt', sans-serif; */
   --primaryColor: #802270;
   --secondaryColor: #ffffff;
   --secondaryTextColor: #222222;
-  --fontHeader:'Prompt',sans-serif;
-  --fontText:'Pridi', serif;
+  --fontHeader: "Prompt", sans-serif;
+  --fontText: "Pridi", serif;
 }
 * {
   margin: 0;
@@ -25,16 +25,19 @@ body {
   line-height: 1.6em;
 }
 
-
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--fontHeader)
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fontHeader);
 }
 
 .container {
   max-width: 1440px;
   margin: 0 auto;
-  position:relative;
+  position: relative;
 }
 section {
   height: 100vh;
@@ -43,8 +46,9 @@ section {
 /* Home page */
 .home {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  max-height: 1366px;
 }
 
 .home__text {
@@ -56,7 +60,7 @@ section {
   place-items: center;
 }
 .home__text h1 {
-  line-height: .9em;
+  line-height: 0.9em;
   text-align: center;
 }
 
@@ -90,9 +94,9 @@ section {
 }
 /* Modal page */
 .modal {
-  background-color: rgba(0,0,0,.6);
+  background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   display: grid;
@@ -108,9 +112,9 @@ section {
 .card {
   width: 250px;
   height: 500px;
-  margin:0 auto;
+  margin: 0 auto;
   background-color: #ffffff;
-  border:1px solid #000;
+  border: 1px solid #000;
   display: flex;
   flex-direction: column;
   border-radius: 20px;
@@ -122,8 +126,6 @@ section {
   height: 50%;
   flex-grow: 1;
   text-align: center;
-  
-    
 }
 
 .card__img img {
@@ -165,7 +167,7 @@ section {
 
 .info__header h1 {
   font-size: 2.5em;
-  margin: .5em;
+  margin: 0.5em;
 }
 
 .info__header p {
@@ -178,58 +180,55 @@ section {
   height: 32%;
 }
 
+/* Info Page Description */
+
+.info__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--secondaryColor);
+  justify-content: center;
+}
+
 article.info__description {
-  background-color: white;
-  height: 120vh;
-  padding-top: 1rem;
-
-}
-article .info__wrapper {
-  border: none;
+  padding: 1rem 1rem 0 1rem;
   color: var(--secondaryTextColor);
-  padding: 0 1rem;
-  
+  width: 100%;
+  max-width: 40rem;
 }
-article .info__wrapper > div {
-  border: 2px solid var(--primaryColor);
+article.info__description > div {
   margin-bottom: 1rem;
-  border-radius: 10px;
-  padding: 1rem;
+  padding: 1rem 1rem;
 }
-
-article div > img {
+article.info__description div > img {
   width: 2rem;
   height: 2rem;
-  margin-top: 2px;
+  margin-top: 0.2rem;
+  margin-right: 1rem;
 }
-
-.info__wrapper div {
-  display: flex;
-}
-.info__brewers-tips {
-  flex-direction: column;
-}
-.info__brewers-tips p {
-  margin-top: .5rem;
-}
-.info__food-pairings {
-  flex-direction: column;
-}
-.info-container__header h5 {
-  margin-left: .5rem;
-}
-.info__wrapper ul {
+article.info__description div ul {
+  margin-left: 3rem;
   color: var(--primaryColor);
-  margin-left: 2.5rem;
 }
 
-.info__wrapper ul li {
-  margin-left: 2.5rem;
+article.info__description__img {
+  display: none;
+}
+article.info__description .info-container {
+  display: flex;
+  border: 2px solid var(--primaryColor);
+  border-radius: 10px;
+}
+/* article.info__description .info-container:last-child, */
+article.info__description .info-container:nth-child(3) {
+  flex-direction: column;
+}
+article.info__description .info-container__header {
+  display: flex;
 }
 
 /* Utility */
 .header {
-  font-size:6em;
+  font-size: 6em;
 }
 .hide {
   display: none;
@@ -245,7 +244,7 @@ img {
 .btn {
   font-family: var(--fontHeader);
   font-size: 2rem;
-  padding:1.2rem;
+  padding: 1.2rem;
 }
 
 .btn--purple {
@@ -264,7 +263,6 @@ img {
   letter-spacing: 3px;
   border: none;
   border-radius: 10px;
-  
 }
 
 /*Home page media queries - ipad*/
@@ -278,6 +276,7 @@ img {
     font-size: 2em;
     text-align: center;
     line-height: 1.5em;
+    padding: 1em;
   }
 
   .home__img {
@@ -295,10 +294,9 @@ img {
     margin-left: 2em;
   }
 
-  
-
   .home__text p {
     text-align: left;
+    padding: 0;
   }
 
   .home__img {
@@ -306,21 +304,24 @@ img {
     grid-row-end: 4;
     grid-column: 3;
     display: grid;
-    place-items:  start center;
+    place-items: start center;
     margin-top: 2em;
+    margin-bottom: 2em;
   }
   .home__buttons {
     grid-row-start: 3;
     grid-row-end: 4;
     grid-column-start: 1;
-    grid-column-end: 3;
-    flex-direction: row;
+    grid-column-end: 4;
+    display: block;
+    margin: 20px 0;
+    margin-left: 20px;
     justify-content: start;
-
   }
- .home__buttons button {
-   margin-left: 1rem;
- }
+  .home__buttons button {
+    margin-left: 1rem;
+    width: 30rem;
+  }
 }
 
 /*Card modal media queries*/
@@ -328,9 +329,8 @@ img {
   .card {
     width: 300px;
     height: 600px;
+  }
 }
-}
-
 
 /*Info Page Media Queries - large mobile*/
 @media (min-width: 375px) {
@@ -339,33 +339,27 @@ img {
     text-align: center;
     height: 100vh;
   }
-  
+
   .info__header h1 {
     font-size: 2.5em;
-    
-    margin: .8em;
+
+    margin: 0.8em;
   }
-  
+
   .info__header p {
     margin-bottom: 1.5em;
     line-height: 1.8;
   }
-  
+
   .info__header img {
     display: block;
     margin: 0 auto;
     height: 40%;
   }
-
-  article.info__description {
-    height: 100vh;
-  }
-  
 }
 
-
 /*Info Page Media Queries - ipad*/
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .info button {
     display: block;
     position: absolute;
@@ -376,41 +370,57 @@ img {
   .info__header {
     padding: 1em;
     text-align: left;
-    height: 300px;
+    height: 320px;
   }
-  
+
   .info__header h1 {
     font-size: 6rem;
     margin: 30px 20px;
   }
-  
+
   .info__header p {
     font-size: 1.8rem;
     line-height: 1.8;
     margin-left: 20px;
     margin-bottom: 1.5em;
-    max-width: 95%;
+    max-width: 75%;
+    display: inline-block;
   }
 
   .info__header img {
-    display: none;
+    display: inline-block;
+    height: 180px;
+    margin-left: 50px;
   }
 }
 
 /*Info Page Media Queries - desktop*/
 @media (min-width: 1000px) {
-  
-   .info__header h1 {
+  .info__header h1 {
     font-size: 6rem;
     margin: 30px 50px;
   }
-  
+
   .info__header p {
     font-size: 1.8rem;
     line-height: 1.8;
     margin-left: 50px;
     margin-bottom: 1.5em;
     max-width: 80%;
+  }
+
+  .info__header img {
+    display: none;
+  }
+  article.info__description__img {
+    max-width: 10rem;
+    padding-top: 1rem;
+    display: flex;
+    margin-left: 5rem;
+  }
+  article.info__description__img img {
+    height: 100%;
+    width: 85%;
   }
 }
 

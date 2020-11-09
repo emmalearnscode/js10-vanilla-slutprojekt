@@ -8,15 +8,15 @@
       href="https://fonts.googleapis.com/css2?family=Pridi&family=Prompt:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
     <script
       src="https://kit.fontawesome.com/4ed2198b96.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <main class="container">
-      <section class="home hide">
+      <section class="home">
         <div class="home__text">
           <h1 class="header">BEER WIKI</h1>
           <p>
@@ -34,7 +34,8 @@
           <img src="images/beer-img.png" alt="bottle-logo" />
         </div>
       </section>
-      <section class="search-section">
+
+      <section class="search-section hide">
         <form action="GET">
           <div class="search-section__heading">
             <h1 class="header">SEARCH</h1>
@@ -48,10 +49,13 @@
               type="text"
             />
           </div>
+          <div class="search-section__list">
+            <ul class="search-list"></ul>
+          </div>
           <h3>
             Advanced Search <i class="js-toggle-arrow fas fa-angle-down"></i>
           </h3>
-          <div class="search-section__advanced hide">
+          <div class="search-section__advanced">
             <div class="search-section__input">
               <label for="search-beer">Hops:</label>
               <input

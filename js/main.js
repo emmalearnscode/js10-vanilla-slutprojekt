@@ -3,22 +3,35 @@ function main() {
   const modalPage = document.querySelector(".js-modal");
   const infoPage = document.querySelector(".js-info");
   const homePage = document.querySelector(".home");
+  const searchPage = document.querySelector(".search-section");
+  const btnSearch = document.querySelector(".js-search-btn");
 
   let api = "https://api.punkapi.com/v2/";
   const dummyApi = "../dummyData/data.json";
   const apiExtend = {
     random: "beers/random",
+    query: {
+      queryStart: "beers?per_page=10",
+      brewedBefore: "brewed_before",
+      beerName: "beer_name",
+      brewedBefore: "brewed_before",
+      brewedAfter: "brewed_after",
+      hops: "hops",
+      malt: "malt",
+    },
   };
 
   function initEvents() {
     btnBottle.addEventListener("click", getRandomBottle);
+    btnSearch.addEventListener("click", renderSearchPage);
   }
+
   function toggleClass(element, className) {
     element.classList.toggle(className);
   }
   async function getData(extend) {
-    // const result = await fetch(api.concat(extend)); // real api later use
-    const result = await fetch(dummyApi);
+    const result = await fetch(api.concat(extend)); // real api later use
+    // const result = await fetch(dummyApi);
     const data = await result.json();
     return data;
   }
@@ -80,8 +93,8 @@ function main() {
     return newString;
   }
 
-  function renderHomePage() {
-    toggleClass(infoPage, "hide");
+  function renderHomePage(page) {
+    toggleClass(page, "hide");
     toggleClass(homePage, "hide");
   }
 
@@ -154,7 +167,42 @@ function main() {
     createList(data.food_pairing, foodPairingList);
 
     const homeBtn = document.querySelector(".js-btn-home");
-    homeBtn.addEventListener("click", renderHomePage);
+    homeBtn.addEventListener("click", () => {
+      renderHomePage(infoPage);
+    });
+  }
+  function cancelBtnEvent(e) {
+    e.preventDefault();
+    renderHomePage(searchPage);
+  }
+  async function renderBeerList(e) {
+    const searchList = searchPage.querySelector(".search-list");
+    searchList.innerHTML = "";
+    if (e.target.value) {
+      let beerName = e.target.value;
+
+      if (beerName.includes(" ")) {
+        beerName.replace(" ", "_");
+      }
+      const query =
+        apiExtend.query.queryStart +
+        "&" +
+        apiExtend.query.beerName +
+        "=" +
+        e.target.value;
+      const data = await getData(query);
+      const beerNames = [];
+      data.forEach((beer) => beerNames.push(beer.name));
+      createList(beerNames, searchList);
+    }
+  }
+  function renderSearchPage() {
+    toggleClass(homePage, "hide");
+    toggleClass(searchPage, "hide");
+    const beerNameInput = searchPage.querySelector("#search-beer");
+    beerNameInput.addEventListener("keyup", renderBeerList);
+    const cancelSearchBtn = document.querySelector(".js-search-cancel");
+    cancelSearchBtn.addEventListener("click", cancelBtnEvent);
   }
 
   // Main Start up

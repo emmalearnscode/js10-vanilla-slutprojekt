@@ -228,7 +228,7 @@ article.info__description .info-container__header {
 
 /* Search page */
 
-section.search-section {
+.search-section {
   display: grid;
   place-items: center;
 }

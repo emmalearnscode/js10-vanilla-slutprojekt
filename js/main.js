@@ -68,7 +68,8 @@ function main() {
   function closeModal(e) {
     if (
       e.target.classList.contains("js-modal") ||
-      e.target.classList.contains("js-modal-close")
+      e.target.classList.contains("js-modal-close") ||
+      e.target.classList.contains("search-modal")
     ) {
       toggleClass(modalPage, "hide");
     }
@@ -279,11 +280,22 @@ function main() {
     <button class="btn btn--white js-more-info-btn">MORE INFO</button>
   </div>
     `;
+    const btnMoreInfo = searchCard
+      .querySelector(".js-more-info-btn")
+      .addEventListener("click", () => {
+        renderInfoPage(obj);
+      });
     return searchCard;
   }
   function searchModal(data) {
+    modalPage.addEventListener("click", closeModal);
+    document.body.classList.add("no-scroll");
     const wrapper = modalPage.querySelector(".wrapper");
+    wrapper.innerHTML = "";
     toggleClass(modalPage, "hide");
+    if (!wrapper.classList.contains("search-modal")) {
+      toggleClass(wrapper, "search-modal");
+    }
     data.forEach((item) => {
       const card = createSearchCard(item);
       wrapper.append(card);
@@ -304,15 +316,24 @@ function main() {
     const data = await getData(query);
     searchModal(data);
   }
+  function clearInputs() {
+    const inputs = searchPage
+      .querySelectorAll("input")
+      .forEach((input) => (input.value = ""));
+  }
 
   function renderSearchPage() {
     toggleClass(homePage, "hide");
     toggleClass(searchPage, "hide");
+    clearInputs();
     currentPage = 1;
+    const pagination = searchPage.querySelector(".pagination");
+    if (!pagination.classList.contains("hide")) {
+      toggleClass(pagination, "hide");
+    }
     const beerNameSearchList = searchPage.querySelector(".search-list");
     beerNameSearchList.innerHTML = "";
     const beerNameInput = searchPage.querySelector("#search-beer");
-    beerNameInput.value = "";
     beerNameInput.addEventListener("keyup", renderBeerList);
     const cancelSearchBtn = searchPage.querySelector(".js-search-cancel");
     cancelSearchBtn.addEventListener("click", cancelBtnEvent);

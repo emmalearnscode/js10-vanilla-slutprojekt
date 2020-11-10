@@ -102,17 +102,18 @@ section {
   display: grid;
   place-items: center;
   z-index: 100;
+  height: 100%;
 }
 .modal__close {
   position: absolute;
   right: 10px;
   top: 20px;
 }
-.wrapper {
-  min-height: 100vh;
+.search-modal {
+  height: 100%;
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   overflow-y: auto;
   overflow-x: auto;
 }
@@ -138,6 +139,21 @@ section {
 .card__img img {
   max-width: 95%;
   max-height: 95%;
+}
+
+.search-modal .card {
+  margin: 2rem auto;
+  width: 180px;
+  height: 370px;
+}
+.search-modal .card h2 {
+  margin-top: 0;
+  font-size: 1.2em;
+}
+.search-modal .card button {
+  font-size: 1em;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .card__content {
@@ -323,6 +339,9 @@ article.info__description .info-container__header {
   margin-bottom: 2rem;
 }
 /* Utility */
+.no-scroll {
+  overflow: hidden;
+}
 .header {
   font-size: 6em;
 }
@@ -428,6 +447,13 @@ img {
   }
 }
 
+@media (min-width: 768px) {
+  .search-modal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
 /*Info Page Media Queries - large mobile*/
 @media (min-width: 375px) {
   .info__header {
@@ -520,7 +546,6 @@ img {
   .info__header img {
     display: none;
   }
-
   article.info__description__img {
     max-width: 10rem;
     padding-top: 1rem;

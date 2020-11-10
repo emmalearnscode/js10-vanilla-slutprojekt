@@ -83,12 +83,12 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: -20rem auto 0 auto;
+  margin: -20rem auto 0;
   width: 95%;
 }
 .home__buttons > button {
   margin-bottom: 1.2rem;
-  width: 35rem;
+  width: 31rem;
   max-width: 40rem;
   align-self: center;
 }
@@ -159,6 +159,7 @@ section {
 .card__content {
   /* height: 300px; */
   flex-grow: 1;
+
   background-color: var(--primaryColor);
   border-bottom-left-radius: 18px;
   border-bottom-right-radius: 18px;
@@ -179,6 +180,11 @@ section {
 }
 
 /*Info Page*/
+.info {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
 .info button {
   display: none;
 }
@@ -472,7 +478,6 @@ img {
 
   .info__header h1 {
     font-size: 2.5em;
-
     margin: 0.8em;
   }
 
@@ -515,8 +520,6 @@ img {
     line-height: 1.8;
     margin-left: 20px;
     margin-bottom: 1.5em;
-
-    display: inline-block;
   }
   .header-content {
     max-width: 80%;
@@ -539,13 +542,11 @@ img {
 
 /*Info Page Media Queries - desktop*/
 @media (min-width: 1000px) {
+  .header-content {
+    width: 1000px;
+  }
   .info__header h1 {
     font-size: 6rem;
-    margin: 30px 50px;
-  }
-
-  .header-content {
-    max-width: 100%;
   }
 
   .info__header p {
@@ -564,14 +565,6 @@ img {
   article.info__description__img img {
     height: 100%;
     width: 85%;
-  }
-}
-
-/*Info Page Media Queries - desktop*/
-@media (min-width: 1440px) {
-  .info__header {
-    border-left: 2px solid white;
-    border-right: 2px solid white;
   }
 }
 

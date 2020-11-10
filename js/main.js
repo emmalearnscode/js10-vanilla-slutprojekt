@@ -139,10 +139,13 @@ function main() {
           <p>${data.volume.value} ${data.volume.unit}</p>
         </div>
         <div class="info-container info__ingredients">
+        <div class="info-container__header">
           <img src="images/grain.svg" />
-          <h5>Malt</h5>
+          <h5>Ingredients:</h5>
+          </div>
+          <h5>Malt:</h5>
     <p>${ingredientsToString(data.ingredients.malt)}</p> 
-    <h5>Yeast</h5>
+    <h5>Yeast:</h5>
     <p>${data.ingredients.yeast}</p>
         </div>
         <div class="info-container">

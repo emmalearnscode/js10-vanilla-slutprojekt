@@ -264,7 +264,7 @@ function main() {
         input.value;
 
       const data = await getData(query);
-      if (data.length === 0) {
+      if (data.length <= 0) {
         forwardBtn.disabled = true;
       } else {
         forwardBtn.disabled = false;

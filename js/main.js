@@ -352,7 +352,9 @@ function main() {
         query += `&${apiExtend.query[input.dataset.query]}=${input.value}`;
       }
     });
+
     const data = await getData(query);
+    console.log(data.length);
     searchModal(data);
   }
   function clearInputs() {

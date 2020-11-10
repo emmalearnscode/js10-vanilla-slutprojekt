@@ -14,12 +14,13 @@ function main() {
     query: {
       queryStart: "beers?page=",
       beerPerPage: "per_page=10",
-      brewedBefore: "brewed_before",
       beerName: "beer_name",
       brewedBefore: "brewed_before",
       brewedAfter: "brewed_after",
       hops: "hops",
       malt: "malt",
+      abvLess: "abv_lt",
+      abvGreater: "abv_gt",
     },
   };
 
@@ -31,8 +32,8 @@ function main() {
   function toggleClass(element, className) {
     element.classList.toggle(className);
   }
-  async function getData(extend) {
-    const result = await fetch(api.concat(extend)); // real api later use
+  async function getData(query) {
+    const result = await fetch(api.concat(query)); // real api later use
     // const result = await fetch(dummyApi);
     const data = await result.json();
     return data;
@@ -92,8 +93,9 @@ function main() {
     for (let index in arr) {
       if (index === arr.length - 1) {
         newString += `${arr[index].name} `;
+      } else {
+        newString += `${arr[index].name}, `;
       }
-      newString += `${arr[index].name}, `;
     }
     return newString;
   }
@@ -205,6 +207,12 @@ function main() {
     const input = searchPage.querySelector(".js-search-input");
     const forwardBtn = searchPage.querySelector(".page-right");
     const showCurrentPage = searchPage.querySelector(".current-page");
+    const pagination = searchPage.querySelector(".pagination");
+
+    if (pagination.classList.contains("hide")) {
+      toggleClass(pagination, "hide");
+    }
+
     searchList.innerHTML = "";
     if (input.value) {
       let beerName = input.value;
@@ -230,6 +238,8 @@ function main() {
         createBeerSearchList(data, searchList);
       }
       showCurrentPage.innerText = "Page " + currentPage;
+    } else {
+      toggleClass(pagination, "hide");
     }
   }
   function toggleAdvanceSearch(e) {
@@ -257,6 +267,43 @@ function main() {
       renderBeerList();
     }
   }
+  function createSearchCard(obj) {
+    const searchCard = document.createElement("div");
+    toggleClass(searchCard, "card");
+    searchCard.innerHTML = `
+    <div class="card__img">
+    <img src="${obj.image_url}" alt="${obj.name}" />
+  </div>
+  <div class="card__content">
+    <h2 class="beer-name">${obj.name}</h2>
+    <button class="btn btn--white js-more-info-btn">MORE INFO</button>
+  </div>
+    `;
+    return searchCard;
+  }
+  function searchModal(data) {
+    const wrapper = modalPage.querySelector(".wrapper");
+    toggleClass(modalPage, "hide");
+    data.forEach((item) => {
+      const card = createSearchCard(item);
+      wrapper.append(card);
+    });
+  }
+  async function advanceSearch(e) {
+    e.preventDefault();
+    const advanceInputs = searchPage.querySelectorAll(
+      ".search-section__advanced input"
+    );
+    let query = apiExtend.query.queryStart + "1";
+
+    advanceInputs.forEach((input) => {
+      if (input.value !== "") {
+        query += `&${apiExtend.query[input.dataset.query]}=${input.value}`;
+      }
+    });
+    const data = await getData(query);
+    searchModal(data);
+  }
 
   function renderSearchPage() {
     toggleClass(homePage, "hide");
@@ -275,6 +322,8 @@ function main() {
     pageLeft.addEventListener("click", previousPage);
     const pageRight = searchPage.querySelector(".page-right");
     pageRight.addEventListener("click", nextPage);
+    const btnSearch = searchPage.querySelector(".js-search-submit");
+    btnSearch.addEventListener("click", advanceSearch);
   }
 
   // Main Start up

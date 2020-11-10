@@ -36,7 +36,7 @@
       </section>
 
       <section class="search-section hide">
-        <form action="GET">
+        <form>
           <div class="search-section__heading">
             <h1 class="header">SEARCH</h1>
           </div>
@@ -51,7 +51,7 @@
             />
           </div>
           <div class="search-section__list">
-            <div class="pagination">
+            <div class="pagination hide">
               <i class="fas fa-angle-left page-left"></i>
               <p>
                 <span class="current-page"></span>
@@ -63,7 +63,7 @@
           <h3 class="js-toggle-arrow">
             Advanced Search <i class="fas fa-angle-down"></i>
           </h3>
-          <div class="search-section__advanced hide">
+          <div class="search-section__advanced">
             <div class="search-section__input">
               <label for="search-beer">Hops:</label>
               <input
@@ -71,6 +71,7 @@
                 class="js-search-input"
                 name="search-hops"
                 type="text"
+                data-query="hops"
               />
             </div>
             <div class="search-section__input">
@@ -80,6 +81,7 @@
                 class="js-search-input"
                 name="search-malt"
                 type="text"
+                data-query="malt"
               />
             </div>
             <div class="search-section__input">
@@ -88,7 +90,8 @@
                 id="search-brewed-before"
                 class="js-search-input"
                 name="search-brewed-before"
-                type="text"
+                type="month"
+                data-query="brewedBefore"
               />
             </div>
             <div class="search-section__input">
@@ -97,7 +100,9 @@
                 id="search-brewed-after"
                 class="js-search-input"
                 name="search-brewed-after"
-                type="text"
+                type="month"
+                min="2007-01"
+                data-query="brewedAfter"
               />
             </div>
             <div class="search-section__input">
@@ -106,7 +111,10 @@
                 id="search-abv-greater"
                 class="js-search-input"
                 name="search-abv-greater"
-                type="text"
+                type="number"
+                min="0"
+                max="55"
+                data-query="abvGreater"
               />
             </div>
             <div class="search-section__input">
@@ -115,7 +123,10 @@
                 id="search-abv-less"
                 class="js-search-input"
                 name="search-abv-less"
-                type="text"
+                type="number"
+                min="0"
+                max="55"
+                data-query="abvLess"
               />
             </div>
           </div>

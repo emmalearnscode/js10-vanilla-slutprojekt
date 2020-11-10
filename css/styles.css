@@ -380,6 +380,15 @@ img {
   border-radius: 10px;
 }
 
+.btn--white:hover {
+  transform: scale(1.08);
+}
+
+.btn--purple:hover {
+  background-color: var(--secondaryColor);
+  color: var(--primaryColor);
+}
+
 /*Home page media queries - ipad*/
 @media (min-width: 768px) {
   .home__text h1 {

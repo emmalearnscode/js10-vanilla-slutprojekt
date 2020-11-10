@@ -89,8 +89,11 @@ function main() {
   }
   function ingredientsToString(arr) {
     let newString = "";
-    for (let item of arr) {
-      newString += `${item.name},`;
+    for (let index in arr) {
+      if (index === arr.length - 1) {
+        newString += `${arr[index].name} `;
+      }
+      newString += `${arr[index].name}, `;
     }
     return newString;
   }
@@ -107,22 +110,29 @@ function main() {
     infoPage.innerHTML = `
     <button class="btn btn--purple js-btn-home">HOME</button>
     <header class="info__header">
+    <div class="header-content">
       <h1 class="beer-name">${data.name}</h1>
       <p class="desc">
         ${data.description}
       </p>
+      </div>
+      <div class="header-img">
       <img class="info__img" src="${data.image_url}" alt="beer name" />
-    </header>
+      </div>
+      </header>
     <div class="info__wrapper">
       <article class="info__description">
-        <div class="info-container">
+        <div class="info-container info-flex">
+        
           <img src="images/discount.svg" />
-          <h5>Absolute volume:</h5>
+          <h5>Absolute volume: </h5>
           <p> ${data.abv}</p>
+        
+          
         </div>
-        <div class="info-container volume">
+        <div class="info-container volume info-flex">
           <img src="images/beaker.svg" />
-          <h5>Volume:</h5>
+          <h5>Volume: </h5>
           <p>${data.volume.value} ${data.volume.unit}</p>
         </div>
         <div class="info-container info__ingredients">
@@ -133,9 +143,11 @@ function main() {
     <p>${data.ingredients.yeast}</p>
         </div>
         <div class="info-container">
+        <div class="info-container__header">
         <img src="images/hop.svg" />
         <h5>Hops: </h5>
-        <p>${ingredientsToString(data.ingredients.hops)}</p>
+        </div>
+        <p> ${ingredientsToString(data.ingredients.hops)}</p>
       </div>
         
       </article>
@@ -155,8 +167,9 @@ function main() {
           <div class="info-container__header">
             <img src="images/knife_1.svg" />
             <h5>Food pairings:</h5>
-            <ul class="js-food-pairing-list"></ul>
+            
           </div>
+          <ul class="js-food-pairing-list"></ul>
         </div>
         <!-- </div> -->
       </article>
@@ -190,6 +203,8 @@ function main() {
   async function renderBeerList() {
     const searchList = searchPage.querySelector(".search-list");
     const input = searchPage.querySelector(".js-search-input");
+    const forwardBtn = searchPage.querySelector(".page-right");
+    const showCurrentPage = searchPage.querySelector(".current-page");
     searchList.innerHTML = "";
     if (input.value) {
       let beerName = input.value;
@@ -206,12 +221,15 @@ function main() {
         apiExtend.query.beerName +
         "=" +
         input.value;
-      console.log(query);
-      const data = await getData(query);
 
-      if (data.length !== 0) {
+      const data = await getData(query);
+      if (data.length < 10) {
+        forwardBtn.disabled = true;
+      } else {
+        forwardBtn.disabled = false;
         createBeerSearchList(data, searchList);
       }
+      showCurrentPage.innerText = "Page " + currentPage;
     }
   }
   function toggleAdvanceSearch(e) {

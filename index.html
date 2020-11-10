@@ -47,14 +47,18 @@
               class="js-search-input"
               name="search-beer"
               type="text"
+              autocomplete="off"
             />
           </div>
           <div class="search-section__list">
-            <ul class="search-list"></ul>
-            <p>
-              <i class="fas fa-angle-left page-left"></i> Page ?
+            <div class="pagination">
+              <i class="fas fa-angle-left page-left"></i>
+              <p>
+                <span class="current-page"></span>
+              </p>
               <i class="fas fa-angle-right page-right"></i>
-            </p>
+            </div>
+            <ul class="search-list"></ul>
           </div>
           <h3 class="js-toggle-arrow">
             Advanced Search <i class="fas fa-angle-down"></i>

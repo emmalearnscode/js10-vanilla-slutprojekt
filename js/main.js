@@ -32,22 +32,33 @@ function main() {
   function toggleClass(element, className) {
     element.classList.toggle(className);
   }
+
   async function getData(query) {
     const result = await fetch(api.concat(query)); // real api later use
     // const result = await fetch(dummyApi);
     const data = await result.json();
     return data;
   }
+
   // Event functions
   async function getRandomBottle() {
     const data = await getData(apiExtend.random);
     renderModal(data[0]);
   }
+
   // Modal page
   function renderModal(data) {
     modalPage.addEventListener("click", closeModal);
     toggleClass(modalPage, "hide");
+
     const cardWrapper = modalPage.querySelector(".wrapper");
+    if (cardWrapper.classList.contains("search-modal")) {
+      toggleClass(cardWrapper, "search-modal");
+    }
+
+    if (data.image_url === null) {
+      data.image_url = "../images/DefaultBeer.png";
+    }
     cardWrapper.innerHTML = `
     <div class="card">
     <div class="card__img">
@@ -74,6 +85,7 @@ function main() {
       toggleClass(modalPage, "hide");
     }
   }
+
   function hidePages() {
     const pages = document.querySelectorAll("section");
     pages.forEach((page) => {
@@ -82,6 +94,7 @@ function main() {
       }
     });
   }
+
   function createList(arr, list) {
     for (let listItem of arr) {
       const li = document.createElement("li");
@@ -89,6 +102,7 @@ function main() {
       list.append(li);
     }
   }
+
   function ingredientsToString(arr) {
     let newString = "";
     for (let index in arr) {
@@ -110,8 +124,10 @@ function main() {
   function renderInfoPage(data) {
     hidePages();
     toggleClass(infoPage, "hide");
+    if (data.image_url === null) {
+      data.image_url = "../images/DefaultBeer.png";
+    }
     infoPage.innerHTML = `
-    <button class="btn btn--purple js-btn-home">HOME</button>
     <header class="info__header">
     <div class="header-content">
       <h1 class="beer-name">${data.name}</h1>
@@ -183,6 +199,9 @@ function main() {
         <img class="info__img" src="${data.image_url}" alt="beer-img" />
       </article>
     </div>
+    <div class="info__buttons">
+    <button class="btn btn--white js-btn-home">HOME</button>
+    <button class="btn btn--purple js-btn-search">SEARCH</button></div>
     `;
     const foodPairingList = document.querySelector(".js-food-pairing-list");
     createList(data.food_pairing, foodPairingList);
@@ -191,11 +210,20 @@ function main() {
     homeBtn.addEventListener("click", () => {
       renderHomePage(infoPage);
     });
+
+    const searchBtn = document.querySelector(".js-btn-search");
+    searchBtn.addEventListener("click", () => {
+      renderSearchPage();
+      toggleClass(homePage, "hide");
+      toggleClass(infoPage, "hide");
+    });
   }
+
   function cancelBtnEvent(e) {
     e.preventDefault();
     renderHomePage(searchPage);
   }
+
   function createBeerSearchList(arr, list) {
     for (let listItem of arr) {
       const li = document.createElement("li");
@@ -206,6 +234,7 @@ function main() {
       list.append(li);
     }
   }
+
   async function renderBeerList() {
     const searchList = searchPage.querySelector(".search-list");
     const input = searchPage.querySelector(".js-search-input");
@@ -235,7 +264,7 @@ function main() {
         input.value;
 
       const data = await getData(query);
-      if (data.length < 10) {
+      if (data.length === 0) {
         forwardBtn.disabled = true;
       } else {
         forwardBtn.disabled = false;
@@ -246,6 +275,7 @@ function main() {
       toggleClass(pagination, "hide");
     }
   }
+
   function toggleAdvanceSearch(e) {
     const advanceSearch = searchPage.querySelector(".search-section__advanced");
     let element;
@@ -258,6 +288,7 @@ function main() {
     toggleClass(element, "fa-angle-down");
     toggleClass(element, "fa-angle-up");
   }
+
   function previousPage() {
     if (currentPage > 1) {
       currentPage--;
@@ -271,9 +302,13 @@ function main() {
       renderBeerList();
     }
   }
+
   function createSearchCard(obj) {
     const searchCard = document.createElement("div");
     toggleClass(searchCard, "card");
+    if (obj.image_url === null) {
+      obj.image_url = "../images/DefaultBeer.png";
+    }
     searchCard.innerHTML = `
     <div class="card__img">
     <img src="${obj.image_url}" alt="${obj.name}" />
@@ -290,6 +325,7 @@ function main() {
       });
     return searchCard;
   }
+
   function searchModal(data) {
     modalPage.addEventListener("click", closeModal);
     document.body.classList.add("no-scroll");

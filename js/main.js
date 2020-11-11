@@ -230,6 +230,10 @@ function main() {
       li.innerText = listItem.name;
       li.addEventListener("click", function () {
         renderInfoPage(listItem);
+        const searchSectionList = searchPage.querySelector(
+          ".search-section__list"
+        );
+        toggleClass(searchSectionList, "hide");
       });
       list.append(li);
     }
@@ -240,6 +244,7 @@ function main() {
     const input = searchPage.querySelector(".js-search-input");
     const forwardBtn = searchPage.querySelector(".page-right");
     const showCurrentPage = searchPage.querySelector(".current-page");
+    const noResults = searchPage.querySelector(".no-results");
     const pagination = searchPage.querySelector(".pagination");
     const searchSectionList = searchPage.querySelector(".search-section__list");
     if (pagination.classList.contains("hide")) {
@@ -251,11 +256,8 @@ function main() {
 
     searchList.innerHTML = "";
     if (input.value) {
-      let beerName = input.value;
+      let beerName = input.value.replace(" ", "_");
 
-      if (beerName.includes(" ")) {
-        beerName.replace(" ", "_");
-      }
       const query =
         apiExtend.query.queryStart +
         currentPage +
@@ -270,6 +272,11 @@ function main() {
       if (data.length <= 0) {
         toggleClass(pagination, "hide");
         toggleClass(searchSectionList, "hide");
+
+        toggleClass(noResults, "hide");
+        setTimeout(() => {
+          toggleClass(noResults, "hide");
+        }, 5000);
       } else {
         forwardBtn.disabled = false;
         createBeerSearchList(data, searchList);
@@ -354,13 +361,29 @@ function main() {
 
     advanceInputs.forEach((input) => {
       if (input.value !== "") {
-        query += `&${apiExtend.query[input.dataset.query]}=${input.value}`;
+        if (
+          input.id === "search-brewed-before" ||
+          input.id === "search-brewed-after"
+        ) {
+          query += `&${
+            apiExtend.query[input.dataset.query]
+          }=${input.value.split("-").reverse().join("-")}`;
+        } else {
+          query += `&${apiExtend.query[input.dataset.query]}=${input.value}`;
+        }
       }
     });
 
     const data = await getData(query);
-    console.log(data.length);
-    searchModal(data);
+    if (data.length === 0) {
+      const noResults = searchPage.querySelector(".no-results");
+      toggleClass(noResults, "hide");
+      setTimeout(() => {
+        toggleClass(noResults, "hide");
+      }, 5000);
+    } else {
+      searchModal(data);
+    }
   }
   function clearInputs() {
     const inputs = searchPage

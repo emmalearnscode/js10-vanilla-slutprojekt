@@ -287,6 +287,7 @@ article.info__description .info-container__header {
   margin-bottom: 3rem;
   margin-top: 4rem;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .search-section__list {
@@ -363,6 +364,9 @@ article.info__description .info-container__header {
 .no-results {
   background-color: var(--secondaryColor);
   color: var(--primaryColor);
+  width: 27rem;
+  padding: 0.7rem 1rem;
+  margin: 0 auto;
 }
 
 /* Utility */

@@ -60,7 +60,7 @@
             </div>
             <ul class="search-list"></ul>
           </div>
-          <div class="no-results"><h4>NO MATCHING RESULTS</h4></div>
+          <div class="no-results hide"><h4>NO MATCHING RESULTS</h4></div>
           <h3 class="js-toggle-arrow">
             Advanced Search <i class="fas fa-angle-down"></i>
           </h3>
@@ -93,6 +93,9 @@
                 name="search-brewed-before"
                 type="month"
                 data-query="brewedBefore"
+                placeholder="month-year"
+                min="2007-01"
+                max="2014-12"
               />
             </div>
             <div class="search-section__input">
@@ -104,6 +107,9 @@
                 type="month"
                 min="2007-01"
                 data-query="brewedAfter"
+                placeholder="month-year"
+                min="2007-01"
+                max="2014-12"
               />
             </div>
             <div class="search-section__input">

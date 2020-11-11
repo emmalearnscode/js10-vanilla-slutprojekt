@@ -93,8 +93,9 @@ function main() {
     if (e.target.classList.contains("search-section")) {
       const searchList = searchPage.querySelector(".search-section__list");
       const pagination = searchPage.querySelector(".pagination");
-      toggleClass(searchList, "hide");
-      toggleClass(pagination, "hide");
+
+      searchList.classList.add("hide");
+      pagination.classList.add("hide");
     }
   }
 
@@ -408,18 +409,18 @@ function main() {
       toggleClass(wrapper, "search-modal");
     }
 
-    wrapper.innerHTML = `<i class="fas fa-angle-left page-left"></i>`;
     data.forEach((item) => {
       const card = createSearchCard(item);
       wrapper.append(card);
     });
-    wrapper.innerHTML += `<i class="fas fa-angle-right page-right"></i>`;
+
     toggleClass(preloader, "hide");
 
-    const iterateForward = wrapper.querySelector(".page-right");
-    const iterateBackward = wrapper.querySelector(".page-left");
+    const iterateForward = modalPage.querySelector(".page-right");
+    const iterateBackward = modalPage.querySelector(".page-left");
 
     iterateForward.addEventListener("click", async () => {
+      wrapper.innerHTML = "";
       if (currentPage < 33) {
         let data;
         const newQuery = query.replace(
@@ -442,6 +443,7 @@ function main() {
       }
     });
     iterateBackward.addEventListener("click", async () => {
+      wrapper.innerHTML = "";
       if (currentPage - 1 !== 0) {
         const newQuery = query.replace(
           `page=${currentPage}`,
@@ -459,6 +461,7 @@ function main() {
       }
     });
   }
+
   async function advanceSearch(e) {
     e.preventDefault();
     let data;
@@ -506,6 +509,7 @@ function main() {
       searchModal(data, query);
     }
   }
+
   function clearInputs() {
     searchPage.querySelectorAll("input").forEach((input) => (input.value = ""));
   }

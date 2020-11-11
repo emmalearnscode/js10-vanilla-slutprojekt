@@ -123,14 +123,14 @@ section {
   overflow-y: auto;
   overflow-x: auto;
 }
-.search-modal .page-left {
+.page-left {
   font-size: 2em;
   position: absolute;
   top: 50%;
   left: 1.5rem;
   bottom: 0;
 }
-.search-modal .page-right {
+.page-right {
   font-size: 2em;
   position: absolute;
   top: 50%;
@@ -328,6 +328,13 @@ article.info__description .info-container__header {
   color: var(--primaryColor);
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--primaryColor);
+}
+
+.pagination .fas {
+  position: relative;
+  font-size: 2rem;
+  left: 0;
+  line-height: 1.4;
 }
 
 .pagination span {

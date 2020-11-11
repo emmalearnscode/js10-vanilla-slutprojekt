@@ -127,15 +127,14 @@ section {
   font-size: 2em;
   position: absolute;
   top: 50%;
-  right: 1.5rem;
+  left: 1.5rem;
   bottom: 0;
 }
 .search-modal .page-right {
   font-size: 2em;
-  display: block;
   position: absolute;
   top: 50%;
-  left: 1.5rem;
+  right: 1.5rem;
 }
 .card {
   width: 250px;
@@ -286,6 +285,9 @@ article.info__description .info-container__header {
 .info__buttons {
   margin: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 70px;
 }
 
 .info__buttons .btn {
@@ -315,11 +317,15 @@ article.info__description .info-container__header {
 .pagination {
   display: flex;
   font-size: 1.4em;
-  justify-content: space-evenly;
+  justify-content: center;
   background-color: var(--secondaryColor);
   color: var(--primaryColor);
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--primaryColor);
+}
+
+.pagination span {
+  margin: 0 2rem;
 }
 .search-list {
   color: var(--primaryColor);
@@ -472,6 +478,14 @@ img {
   transform: translateX(-50%);
 }
 
+/*Home page media queries - large mobile/small pad*/
+@media (min-width: 450px) and (max-width: 767px) {
+  .home__img {
+    place-items: start;
+    justify-content: center;
+  }
+}
+
 /*Home page media queries - ipad*/
 @media (min-width: 768px) {
   .home__text h1 {
@@ -543,6 +557,7 @@ img {
   .search-modal {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
   }
   .home__buttons button {
     margin-left: 1rem;
@@ -550,25 +565,26 @@ img {
   }
 }
 @media (min-width: 1000px) {
+  .search-modal::-webkit-scrollbar {
+    display: none;
+  }
   .search-modal {
-    justify-content: center;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   .search-modal .card {
-    width: 18%;
+    width: 20%;
   }
-  .search-modal .page-left {
-    font-size: 2em;
-    position: absolute;
-    top: 50%;
+  .modal__close {
     right: 5%;
-    bottom: 0;
+  }
+}
+@media (min-width: 1400px) {
+  .search-modal .page-left {
+    left: 12%;
   }
   .search-modal .page-right {
-    font-size: 2em;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 5%;
+    right: 12%;
   }
 }
 
@@ -641,7 +657,7 @@ img {
     width: 40%;
     height: 100%;
     max-height: 250px;
-    margin: 7rem auto;
+    margin: 1rem auto;
   }
 
   .info__wrapper {

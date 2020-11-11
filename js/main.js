@@ -58,7 +58,7 @@ function main() {
     }
 
     if (data.image_url === null) {
-      data.image_url = "../images/DefaultBeer.png";
+      data.image_url = "./images/DefaultBeer.png";
     }
     cardWrapper.innerHTML = `
     <div class="card">
@@ -87,6 +87,19 @@ function main() {
       toggleClass(modalPage, "hide");
     }
   }
+
+  function closeBeerList(e) {
+    if (e.target.classList.contains("search-section")) {
+      const searchList = searchPage.querySelector(".search-section__list");
+      const pagination = searchPage.querySelector(".pagination");
+      toggleClass(searchList, "hide");
+      toggleClass(pagination, "hide");
+    }
+  }
+
+  searchPage.addEventListener("click", (e) => {
+    closeBeerList(e);
+  });
 
   function hidePages() {
     const pages = document.querySelectorAll("section");
@@ -127,7 +140,7 @@ function main() {
     hidePages();
     toggleClass(infoPage, "hide");
     if (data.image_url === null) {
-      data.image_url = "../images/DefaultBeer.png";
+      data.image_url = "./images/DefaultBeer.png";
     }
     infoPage.innerHTML = `
     <header class="info__header">
@@ -202,8 +215,8 @@ function main() {
       </article>
     </div>
     <div class="info__buttons">
-    <button class="btn btn--white js-btn-home">HOME</button>
-    <button class="btn btn--purple js-btn-search">SEARCH</button></div>
+    <button class="btn btn--white js-btn-home"><i class="fas fa-home"></i></button>
+    <button class="btn btn--purple js-btn-search"><i class="fas fa-search"></i></button></div>
     `;
     const foodPairingList = document.querySelector(".js-food-pairing-list");
     createList(data.food_pairing, foodPairingList);
@@ -220,6 +233,7 @@ function main() {
       toggleClass(infoPage, "hide");
     });
   }
+
   function getLocalStorage(query) {
     const getStorage = JSON.parse(localStorage.getItem("queryCache"));
     if (!getStorage || !getStorage[query]) {
@@ -280,6 +294,10 @@ function main() {
     }
     if (searchSectionList.classList.contains("hide")) {
       toggleClass(searchSectionList, "hide");
+    }
+
+    if (!input.value) {
+      currentPage = 1;
     }
 
     searchList.innerHTML = "";
@@ -356,7 +374,7 @@ function main() {
     const searchCard = document.createElement("div");
     toggleClass(searchCard, "card");
     if (obj.image_url === null) {
-      obj.image_url = "../images/DefaultBeer.png";
+      obj.image_url = "./images/DefaultBeer.png";
     }
     searchCard.innerHTML = `
     <div class="card__img">
@@ -371,27 +389,74 @@ function main() {
       .querySelector(".js-more-info-btn")
       .addEventListener("click", () => {
         renderInfoPage(obj);
+        console.log("CLICKED");
       });
     return searchCard;
   }
 
-  function searchModal(data) {
+  function searchModal(data, query) {
     const preloader = modalPage.querySelector(".preloader-wrapper");
     toggleClass(preloader, "hide");
     modalPage.addEventListener("click", closeModal);
     document.body.classList.add("no-scroll");
     const wrapper = modalPage.querySelector(".wrapper");
-    toggleClass(modalPage, "hide");
+    if (modalPage.classList.contains("hide")) {
+      toggleClass(modalPage, "hide");
+    }
     if (!wrapper.classList.contains("search-modal")) {
       toggleClass(wrapper, "search-modal");
     }
-    wrapper.innerHTML = `<i class="fas fa-angle-left page-right"></i>`;
+
+    wrapper.innerHTML = `<i class="fas fa-angle-left page-left"></i>`;
     data.forEach((item) => {
       const card = createSearchCard(item);
       wrapper.append(card);
     });
-    wrapper.innerHTML += `<i class="fas fa-angle-right page-left"></i>`;
+    wrapper.innerHTML += `<i class="fas fa-angle-right page-right"></i>`;
     toggleClass(preloader, "hide");
+
+    const iterateForward = wrapper.querySelector(".page-right");
+    const iterateBackward = wrapper.querySelector(".page-left");
+
+    iterateForward.addEventListener("click", async () => {
+      if (currentPage < 33) {
+        let data;
+        const newQuery = query.replace(
+          `page=${currentPage}`,
+          `page=${currentPage + 1}`
+        );
+        let ls = getLocalStorage(newQuery);
+        if (ls) {
+          data = ls;
+        } else {
+          data = await getData(newQuery);
+          if (data) {
+            setLocalStorage(query);
+          } else {
+            return;
+          }
+        }
+        currentPage++;
+        searchModal(data, newQuery);
+      }
+    });
+    iterateBackward.addEventListener("click", async () => {
+      if (currentPage - 1 !== 0) {
+        const newQuery = query.replace(
+          `page=${currentPage}`,
+          `page=${currentPage - 1}`
+        );
+        let data;
+        let ls = getLocalStorage(newQuery);
+        if (ls) {
+          data = ls;
+        } else {
+          data = await getData(newQuery);
+        }
+        currentPage--;
+        searchModal(data, newQuery);
+      }
+    });
   }
   async function advanceSearch(e) {
     e.preventDefault();
@@ -437,7 +502,7 @@ function main() {
         toggleClass(noResults, "hide");
       }, 5000);
     } else {
-      searchModal(data);
+      searchModal(data, query);
     }
   }
   function clearInputs() {

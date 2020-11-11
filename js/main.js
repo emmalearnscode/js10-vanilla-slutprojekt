@@ -7,7 +7,6 @@ function main() {
   const btnSearch = document.querySelector(".js-search-btn");
 
   let api = "https://api.punkapi.com/v2/";
-  const dummyApi = "../dummyData/data.json";
   let currentPage = 1;
   const apiExtend = {
     random: "beers/random",
@@ -34,8 +33,7 @@ function main() {
   }
 
   async function getData(query) {
-    const result = await fetch(api.concat(query)); // real api later use
-    // const result = await fetch(dummyApi);
+    const result = await fetch(api.concat(query));
     const data = await result.json();
     return data;
   }
@@ -43,6 +41,8 @@ function main() {
   // Event functions
   async function getRandomBottle() {
     const data = await getData(apiExtend.random);
+    const preloader = modalPage.querySelector(".preloader-wrapper");
+    toggleClass(preloader, "hide");
     renderModal(data[0]);
   }
 
@@ -50,6 +50,7 @@ function main() {
   function renderModal(data) {
     modalPage.addEventListener("click", closeModal);
     toggleClass(modalPage, "hide");
+    const preloader = modalPage.querySelector(".preloader-wrapper");
 
     const cardWrapper = modalPage.querySelector(".wrapper");
     if (cardWrapper.classList.contains("search-modal")) {
@@ -74,6 +75,7 @@ function main() {
     moreInfoBtn.addEventListener("click", function () {
       renderInfoPage(data);
     });
+    toggleClass(preloader, "hide");
   }
 
   function closeModal(e) {
@@ -271,6 +273,8 @@ function main() {
     const noResults = searchPage.querySelector(".no-results");
     const pagination = searchPage.querySelector(".pagination");
     const searchSectionList = searchPage.querySelector(".search-section__list");
+    const preloader = searchPage.querySelector(".search-preloader-wrapper");
+    toggleClass(preloader, "hide");
     if (pagination.classList.contains("hide")) {
       toggleClass(pagination, "hide");
     }
@@ -316,10 +320,13 @@ function main() {
       toggleClass(pagination, "hide");
       toggleClass(searchSectionList, "hide");
     }
+    toggleClass(preloader, "hide");
   }
 
   function toggleAdvanceSearch(e) {
     const advanceSearch = searchPage.querySelector(".search-section__advanced");
+    clearInputs();
+
     let element;
     if (e.target.classList.contains("fas")) {
       element = e.target;
@@ -369,18 +376,22 @@ function main() {
   }
 
   function searchModal(data) {
+    const preloader = modalPage.querySelector(".preloader-wrapper");
+    toggleClass(preloader, "hide");
     modalPage.addEventListener("click", closeModal);
     document.body.classList.add("no-scroll");
     const wrapper = modalPage.querySelector(".wrapper");
-    wrapper.innerHTML = "";
     toggleClass(modalPage, "hide");
     if (!wrapper.classList.contains("search-modal")) {
       toggleClass(wrapper, "search-modal");
     }
+    wrapper.innerHTML = `<i class="fas fa-angle-left page-right"></i>`;
     data.forEach((item) => {
       const card = createSearchCard(item);
       wrapper.append(card);
     });
+    wrapper.innerHTML += `<i class="fas fa-angle-right page-left"></i>`;
+    toggleClass(preloader, "hide");
   }
   async function advanceSearch(e) {
     e.preventDefault();
@@ -388,7 +399,8 @@ function main() {
     const advanceInputs = searchPage.querySelectorAll(
       ".search-section__advanced input"
     );
-    let query = apiExtend.query.queryStart + "1";
+    let query =
+      apiExtend.query.queryStart + "1" + "&" + apiExtend.query.beerPerPage;
 
     advanceInputs.forEach((input) => {
       if (input.value !== "") {
@@ -429,9 +441,7 @@ function main() {
     }
   }
   function clearInputs() {
-    const inputs = searchPage
-      .querySelectorAll("input")
-      .forEach((input) => (input.value = ""));
+    searchPage.querySelectorAll("input").forEach((input) => (input.value = ""));
   }
 
   function renderSearchPage() {

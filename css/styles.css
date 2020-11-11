@@ -117,10 +117,25 @@ section {
 .search-modal {
   height: 100%;
   width: 100%;
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   overflow-x: auto;
+}
+.search-modal .page-left {
+  font-size: 2em;
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  bottom: 0;
+}
+.search-modal .page-right {
+  font-size: 2em;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 1.5rem;
 }
 .card {
   width: 250px;
@@ -147,7 +162,8 @@ section {
 }
 
 .search-modal .card {
-  margin: 2rem auto;
+  margin: 1rem 1rem;
+  align-self: center;
   width: 180px;
   height: 370px;
 }
@@ -420,6 +436,42 @@ img {
   color: var(--primaryColor);
 }
 
+.preloader-wrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--primaryColor);
+  position: relative;
+}
+
+.preloader {
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 1.5s infinite;
+  animation-timing-function: linear;
+  z-index: 1000;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.search-preloader-wrapper {
+  width: 27rem;
+  height: 550px;
+  background-color: var(--secondaryColor);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 /*Home page media queries - ipad*/
 @media (min-width: 768px) {
   .home__text h1 {
@@ -476,6 +528,47 @@ img {
   .home__buttons button {
     margin-left: 1rem;
     width: 30rem;
+  }
+}
+
+/*Card modal media queries*/
+@media (min-width: 350px) {
+  .card {
+    width: 300px;
+    height: 600px;
+  }
+}
+
+@media (min-width: 768px) {
+  .search-modal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .home__buttons button {
+    margin-left: 1rem;
+    width: 30rem;
+  }
+}
+@media (min-width: 1000px) {
+  .search-modal {
+    justify-content: center;
+  }
+  .search-modal .card {
+    width: 18%;
+  }
+  .search-modal .page-left {
+    font-size: 2em;
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    bottom: 0;
+  }
+  .search-modal .page-right {
+    font-size: 2em;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 5%;
   }
 }
 

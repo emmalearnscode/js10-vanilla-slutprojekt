@@ -85,7 +85,7 @@ function main() {
       e.target.classList.contains("search-modal")
     ) {
       toggleClass(modalPage, "hide");
-      document.body.classList.remove("no-scroll");
+      searchPage.classList.remove("no-scroll");
     }
   }
 
@@ -400,7 +400,8 @@ function main() {
     const preloader = modalPage.querySelector(".preloader-wrapper");
     toggleClass(preloader, "hide");
     modalPage.addEventListener("click", closeModal);
-    document.body.classList.add("no-scroll");
+
+    searchPage.classList.add("no-scroll");
     const wrapper = modalPage.querySelector(".wrapper");
     if (modalPage.classList.contains("hide")) {
       toggleClass(modalPage, "hide");

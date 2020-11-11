@@ -99,11 +99,13 @@ section {
   position: absolute;
   top: 0;
   left: 0;
+
   width: 100%;
   display: grid;
   place-items: center;
   z-index: 100;
   height: auto;
+  min-height: 100vh;
 }
 .modal__close {
   position: absolute;

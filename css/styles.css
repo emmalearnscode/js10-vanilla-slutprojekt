@@ -219,7 +219,7 @@ section {
 }
 
 .info__header p {
-  margin-bottom: 1.5em;
+  margin: 1.5em 0;
 }
 
 .info__header img {
@@ -283,15 +283,21 @@ article.info__description .info-container__header {
 }
 
 .info__buttons {
-  margin: 2rem;
-  text-align: center;
+  position: fixed;
+  top: 1rem;
+  right: 0px;
   display: flex;
   flex-direction: column;
-  width: 70px;
 }
 
 .info__buttons .btn {
-  margin: 0.5rem;
+  width: 40px;
+  margin-top: -2px;
+  padding: 0.7rem;
+  text-align: center;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 /* Search page */

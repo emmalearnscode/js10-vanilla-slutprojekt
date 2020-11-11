@@ -215,7 +215,7 @@ function main() {
       </article>
     </div>
     <div class="info__buttons">
-    <button class="btn btn--white js-btn-home"><i class="fas fa-home"></i></button>
+    <button class="btn btn--purple js-btn-home"><i class="fas fa-home"></i></button>
     <button class="btn btn--purple js-btn-search"><i class="fas fa-search"></i></button></div>
     `;
     const foodPairingList = document.querySelector(".js-food-pairing-list");

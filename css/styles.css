@@ -124,6 +124,7 @@ section {
   overflow-x: auto;
 }
 .page-left {
+  cursor: pointer;
   font-size: 2em;
   position: absolute;
   top: 50%;
@@ -131,6 +132,7 @@ section {
   bottom: 0;
 }
 .page-right {
+  cursor: pointer;
   font-size: 2em;
   position: absolute;
   top: 50%;

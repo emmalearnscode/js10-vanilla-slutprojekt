@@ -85,6 +85,7 @@ function main() {
       e.target.classList.contains("search-modal")
     ) {
       toggleClass(modalPage, "hide");
+      document.body.classList.remove("no-scroll");
     }
   }
 

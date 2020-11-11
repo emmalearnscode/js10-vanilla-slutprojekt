@@ -359,6 +359,12 @@ article.info__description .info-container__header {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+.no-results {
+  background-color: var(--secondaryColor);
+  color: var(--primaryColor);
+}
+
 /* Utility */
 .no-scroll {
   overflow: hidden;

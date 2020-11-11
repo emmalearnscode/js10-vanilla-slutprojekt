@@ -241,9 +241,12 @@ function main() {
     const forwardBtn = searchPage.querySelector(".page-right");
     const showCurrentPage = searchPage.querySelector(".current-page");
     const pagination = searchPage.querySelector(".pagination");
-
+    const searchSectionList = searchPage.querySelector(".search-section__list");
     if (pagination.classList.contains("hide")) {
       toggleClass(pagination, "hide");
+    }
+    if (searchSectionList.classList.contains("hide")) {
+      toggleClass(searchSectionList, "hide");
     }
 
     searchList.innerHTML = "";
@@ -265,7 +268,8 @@ function main() {
 
       const data = await getData(query);
       if (data.length <= 0) {
-        forwardBtn.disabled = true;
+        toggleClass(pagination, "hide");
+        toggleClass(searchSectionList, "hide");
       } else {
         forwardBtn.disabled = false;
         createBeerSearchList(data, searchList);
@@ -273,6 +277,7 @@ function main() {
       showCurrentPage.innerText = "Page " + currentPage;
     } else {
       toggleClass(pagination, "hide");
+      toggleClass(searchSectionList, "hide");
     }
   }
 

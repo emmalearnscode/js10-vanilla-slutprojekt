@@ -309,6 +309,8 @@ article.info__description .info-container__header {
   background-color: var(--secondaryColor);
   list-style-type: none;
   margin-bottom: 2rem;
+  width: 27rem;
+  height: 550px;
 }
 .search-list li {
   padding: 1rem;

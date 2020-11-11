@@ -218,6 +218,30 @@ function main() {
       toggleClass(infoPage, "hide");
     });
   }
+  function getLocalStorage(query) {
+    const getStorage = JSON.parse(localStorage.getItem("queryCache"));
+    if (!getStorage || !getStorage[query]) {
+      return false;
+    }
+    if (getStorage[query]) {
+      return getStorage[query];
+    }
+  }
+
+  function setLocalStorage(query, data) {
+    let queryStorage = JSON.parse(localStorage.getItem("queryCache"));
+
+    if (!queryStorage) {
+      queryStorage = {};
+    }
+
+    queryStorage[query] = data;
+    localStorage.setItem("queryCache", JSON.stringify(queryStorage));
+
+    const getLocal = JSON.parse(localStorage.getItem("queryCache"));
+
+    console.log(getLocal, "Local Get");
+  }
 
   function cancelBtnEvent(e) {
     e.preventDefault();
@@ -256,8 +280,8 @@ function main() {
 
     searchList.innerHTML = "";
     if (input.value) {
-      let beerName = input.value.replace(" ", "_");
-
+      let beerName = input.value.replace(" ", "_").toLowerCase();
+      let data;
       const query =
         apiExtend.query.queryStart +
         currentPage +
@@ -267,8 +291,14 @@ function main() {
         apiExtend.query.beerName +
         "=" +
         input.value;
+      const ls = getLocalStorage(query);
+      if (ls) {
+        data = ls;
+      } else {
+        data = await getData(query);
+        setLocalStorage(query, data);
+      }
 
-      const data = await getData(query);
       if (data.length <= 0) {
         toggleClass(pagination, "hide");
         toggleClass(searchSectionList, "hide");
@@ -354,6 +384,7 @@ function main() {
   }
   async function advanceSearch(e) {
     e.preventDefault();
+    let data;
     const advanceInputs = searchPage.querySelectorAll(
       ".search-section__advanced input"
     );
@@ -369,12 +400,24 @@ function main() {
             apiExtend.query[input.dataset.query]
           }=${input.value.split("-").reverse().join("-")}`;
         } else {
-          query += `&${apiExtend.query[input.dataset.query]}=${input.value}`;
+          query += `&${
+            apiExtend.query[input.dataset.query]
+          }=${input.value.toLowerCase()}`;
         }
       }
     });
 
-    const data = await getData(query);
+    const ls = getLocalStorage(query);
+    if (ls) {
+      data = ls;
+      console.log("Getting from localStorage");
+      console.log(ls, "localStorage");
+    } else {
+      data = await getData(query);
+      setLocalStorage(query, data);
+      console.log("this is a fetch request");
+    }
+
     if (data.length === 0) {
       const noResults = searchPage.querySelector(".no-results");
       toggleClass(noResults, "hide");

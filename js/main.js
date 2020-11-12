@@ -108,6 +108,7 @@ function main() {
 
       searchList.classList.add("hide");
       pagination.classList.add("hide");
+      currentPage = 1;
     }
   }
 
@@ -318,6 +319,10 @@ function main() {
       currentPage = 1;
     }
 
+    input.addEventListener("click", () => {
+      currentPage = 1;
+    });
+
     searchList.innerHTML = "";
     if (input.value) {
       let beerName = input.value.replace(" ", "_").toLowerCase();
@@ -348,7 +353,6 @@ function main() {
           toggleClass(noResults, "hide");
         }, 5000);
       } else {
-        forwardBtn.disabled = false;
         createBeerSearchList(data, searchList);
       }
       showCurrentPage.innerText = "Page " + currentPage;
@@ -490,10 +494,37 @@ function main() {
     iterateForward.addEventListener("click", advanceSearchForward);
     iterateBackward.addEventListener("click", advanceSearchBackward);
   }
+  function validateAdvanceSearchInput(input) {
+    if (
+      input.id === "search-brewed-after" ||
+      input.id === "search-brewed-before"
+    ) {
+      let split = input.value.split("-");
+      if (split.length > 1 && split.length === 2) {
+        if (split[0].length === 4 && split[1].length === 2) {
+          return { valid: true };
+        }
+      }
+      return {
+        valid: false,
+        message: "Incorrect input needs to be year-month e.g (2014-01)",
+      };
+    }
 
+    return { valid: true };
+  }
+  function inputError(element, message) {
+    console.log(element);
+    element.style.backgroundColor = "red";
+    const errorMessage = document.createElement("h6");
+    const parentElement = element.parentElement;
+    errorMessage.innerText = message;
+    parentElement.insertBefore(errorMessage, element);
+  }
   async function advanceSearch(e) {
     e.preventDefault();
     let data;
+
     const advanceInputs = searchPage.querySelectorAll(
       ".search-section__advanced input"
     );
@@ -503,9 +534,14 @@ function main() {
       `${currentPage}` +
       "&" +
       apiExtend.query.beerPerPage;
-
+    let error = false;
     advanceInputs.forEach((input) => {
       if (input.value !== "") {
+        const validInput = validateAdvanceSearchInput(input);
+        if (!validInput.valid) {
+          inputError(input, validInput.message);
+          error = true;
+        }
         if (
           input.id === "search-brewed-before" ||
           input.id === "search-brewed-after"
@@ -520,6 +556,10 @@ function main() {
         }
       }
     });
+
+    if (error) {
+      return;
+    }
     let inputsArray = Array.from(advanceInputs);
 
     let inputExists = inputsArray.filter((el) => el.value);

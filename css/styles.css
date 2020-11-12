@@ -410,6 +410,9 @@ article.info__description .info-container__header {
 }
 
 /* Utility */
+.error-message {
+  background-color: red;
+}
 .no-scroll {
   overflow: hidden;
 }

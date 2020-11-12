@@ -139,17 +139,24 @@ function main() {
       list.append(li);
     }
   }
-
-  function ingredientsToString(arr) {
-    let newString = "";
-    for (let index in arr) {
-      if (index === arr.length - 1) {
-        newString += `${arr[index].name} `;
-      } else {
-        newString += `${arr[index].name}, `;
+  function containsElement(arr, element) {
+    for (let item of arr) {
+      if (item === element) {
+        return true;
       }
     }
-    return newString;
+    return false;
+  }
+  function ingredientsToString(arr) {
+    const uniqueArr = [];
+
+    for (let index in arr) {
+      const containsItem = containsElement(uniqueArr, arr[index].name);
+      if (!containsItem) {
+        uniqueArr.push(arr[index].name);
+      }
+    }
+    return uniqueArr.join(", ");
   }
 
   function renderInfoPage(data) {
@@ -286,6 +293,7 @@ function main() {
   function createBeerSearchList(arr, list) {
     for (let listItem of arr) {
       const li = document.createElement("li");
+      li.setAttribute("tabindex", "0");
       li.innerText = listItem.name;
       li.addEventListener("click", function () {
         renderInfoPage(listItem);
@@ -293,6 +301,16 @@ function main() {
           ".search-section__list"
         );
         toggleClass(searchSectionList, "hide");
+      });
+
+      li.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          renderInfoPage(listItem);
+          const searchSectionList = searchPage.querySelector(
+            ".search-section__list"
+          );
+          toggleClass(searchSectionList, "hide");
+        }
       });
       list.append(li);
     }
@@ -436,19 +454,17 @@ function main() {
     let ls = getLocalStorage(newQuery);
     if (ls) {
       data = ls;
-      console.log(data, "getting ls");
     } else {
       data = await getData(newQuery);
     }
     if (data.length !== 0) {
       setLocalStorage(newQuery);
     } else {
-      console.log("Running else");
       newQuery = newQuery.replace(`page=${currentPage + 1}`, "page=1");
       currentPage = 0;
       data = getLocalStorage(newQuery);
     }
-    console.log(currentPage, "currentPage");
+
     currentPage++;
     searchModal(data, newQuery);
   }
@@ -495,6 +511,9 @@ function main() {
     iterateBackward.addEventListener("click", advanceSearchBackward);
   }
   function validateAdvanceSearchInput(input) {
+    let error = false;
+    let message =
+      "Input validation failed needs to be year-month (e.g 2014-01)";
     if (
       input.id === "search-brewed-after" ||
       input.id === "search-brewed-before"
@@ -502,21 +521,26 @@ function main() {
       let split = input.value.split("-");
       if (split.length > 1 && split.length === 2) {
         if (split[0].length === 4 && split[1].length === 2) {
-          return { valid: true };
+          for (let item of split) {
+            for (let str of item) {
+              if (isNaN(Number(str))) {
+                error = true;
+                break;
+              }
+            }
+          }
+        } else {
+          error = true;
         }
+      } else {
+        error = true;
       }
-      return {
-        valid: false,
-        message: "Incorrect input needs to be year-month e.g (2014-01)",
-      };
     }
-
-    return { valid: true };
+    return { error, message: error === true ? message : "" };
   }
-  function inputError(element, message) {
-    console.log(element);
-    element.style.backgroundColor = "red";
+  function inputErrorMessage(element, message) {
     const errorMessage = document.createElement("h6");
+    errorMessage.classList.add("error-message");
     const parentElement = element.parentElement;
     errorMessage.innerText = message;
     parentElement.insertBefore(errorMessage, element);
@@ -524,7 +548,10 @@ function main() {
   async function advanceSearch(e) {
     e.preventDefault();
     let data;
-
+    const errorMessages = searchPage.querySelectorAll(".error-message");
+    if (errorMessages) {
+      errorMessages.forEach((error) => error.remove());
+    }
     const advanceInputs = searchPage.querySelectorAll(
       ".search-section__advanced input"
     );
@@ -538,8 +565,8 @@ function main() {
     advanceInputs.forEach((input) => {
       if (input.value !== "") {
         const validInput = validateAdvanceSearchInput(input);
-        if (!validInput.valid) {
-          inputError(input, validInput.message);
+        if (validInput.error) {
+          inputErrorMessage(input, validInput.message);
           error = true;
         }
         if (

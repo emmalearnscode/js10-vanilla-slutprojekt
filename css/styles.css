@@ -343,6 +343,12 @@ article.info__description .info-container__header {
 .pagination span {
   margin: 0 2rem;
 }
+
+.pagination:focus {
+  background-color: var(--primaryColor);
+  color: var(--secondaryColor);
+}
+
 .search-list {
   color: var(--primaryColor);
   background-color: var(--secondaryColor);
@@ -355,7 +361,8 @@ article.info__description .info-container__header {
   padding: 1rem;
   width: 27rem;
 }
-.search-list li:hover {
+.search-list li:hover,
+.search-list li:focus {
   background-color: var(--primaryColor);
   color: var(--secondaryColor);
   cursor: pointer;
@@ -434,6 +441,7 @@ img {
   font-family: var(--fontHeader);
   font-size: 2rem;
   padding: 1.2rem;
+  cursor: pointer;
 }
 
 .btn--purple {

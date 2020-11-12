@@ -56,6 +56,10 @@ function main() {
     if (cardWrapper.classList.contains("search-modal")) {
       toggleClass(cardWrapper, "search-modal");
     }
+    const pageLeft = modalPage.querySelector(".page-left");
+    if (!pageLeft.classList.contains("hide")) {
+      toggleArrows();
+    }
 
     if (data.image_url === null) {
       data.image_url = "./images/DefaultBeer.png";
@@ -89,6 +93,14 @@ function main() {
     }
   }
 
+  function toggleArrows() {
+    const pageLeft = modalPage.querySelector(".page-left");
+    const pageRight = modalPage.querySelector(".page-right");
+    toggleClass(pageLeft, "hide");
+    toggleClass(pageRight, "hide");
+  }
+
+  //Search page functions
   function closeBeerList(e) {
     if (e.target.classList.contains("search-section")) {
       const searchList = searchPage.querySelector(".search-section__list");
@@ -112,6 +124,13 @@ function main() {
     });
   }
 
+  //Home page
+  function renderHomePage(page) {
+    toggleClass(page, "hide");
+    toggleClass(homePage, "hide");
+  }
+
+  // Info Page
   function createList(arr, list) {
     for (let listItem of arr) {
       const li = document.createElement("li");
@@ -132,12 +151,6 @@ function main() {
     return newString;
   }
 
-  function renderHomePage(page) {
-    toggleClass(page, "hide");
-    toggleClass(homePage, "hide");
-  }
-
-  // Info Page
   function renderInfoPage(data) {
     hidePages();
     toggleClass(infoPage, "hide");
@@ -220,14 +233,17 @@ function main() {
     <button class="btn btn--purple js-btn-home"><i class="fas fa-home"></i></button>
     <button class="btn btn--purple js-btn-search"><i class="fas fa-search"></i></button></div>
     `;
+
     const foodPairingList = document.querySelector(".js-food-pairing-list");
     createList(data.food_pairing, foodPairingList);
 
+    //Info page home button
     const homeBtn = document.querySelector(".js-btn-home");
     homeBtn.addEventListener("click", () => {
       renderHomePage(infoPage);
     });
 
+    //Info page search button
     const searchBtn = document.querySelector(".js-btn-search");
     searchBtn.addEventListener("click", () => {
       renderSearchPage();
@@ -236,6 +252,7 @@ function main() {
     });
   }
 
+  //Local storage functions
   function getLocalStorage(query) {
     const getStorage = JSON.parse(localStorage.getItem("queryCache"));
     if (!getStorage || !getStorage[query]) {
@@ -257,10 +274,9 @@ function main() {
     localStorage.setItem("queryCache", JSON.stringify(queryStorage));
 
     const getLocal = JSON.parse(localStorage.getItem("queryCache"));
-
-    console.log(getLocal, "Local Get");
   }
 
+  //Search page functions
   function cancelBtnEvent(e) {
     e.preventDefault();
     renderHomePage(searchPage);
@@ -314,7 +330,7 @@ function main() {
         "&" +
         apiExtend.query.beerName +
         "=" +
-        input.value;
+        beerName;
       const ls = getLocalStorage(query);
       if (ls) {
         data = ls;
@@ -391,18 +407,72 @@ function main() {
       .querySelector(".js-more-info-btn")
       .addEventListener("click", () => {
         renderInfoPage(obj);
-        console.log("CLICKED");
       });
     return searchCard;
   }
 
+  async function advanceSearchBackward(e) {
+    if (currentPage - 1 !== 0) {
+      const newQuery = e.target.dataset.query;
+      let data;
+      let ls = getLocalStorage(newQuery);
+      if (ls) {
+        data = ls;
+      } else {
+        data = await getData(newQuery);
+        setLocalStorage(newQuery);
+      }
+      currentPage--;
+      searchModal(data, newQuery);
+    }
+  }
+  async function advanceSearchForward(e) {
+    let data;
+    let newQuery = e.target.dataset.query;
+    let ls = getLocalStorage(newQuery);
+    if (ls) {
+      data = ls;
+      console.log(data, "getting ls");
+    } else {
+      data = await getData(newQuery);
+    }
+    if (data.length !== 0) {
+      setLocalStorage(newQuery);
+    } else {
+      console.log("Running else");
+      newQuery = newQuery.replace(`page=${currentPage + 1}`, "page=1");
+      currentPage = 0;
+      data = getLocalStorage(newQuery);
+    }
+    console.log(currentPage, "currentPage");
+    currentPage++;
+    searchModal(data, newQuery);
+  }
+
   function searchModal(data, query) {
+    const iterateForward = modalPage.querySelector(".page-right");
+    const iterateBackward = modalPage.querySelector(".page-left");
+    if (iterateForward.classList.contains("hide")) {
+      toggleArrows();
+    }
+    iterateForward.removeEventListener("click", advanceSearchForward);
+    iterateBackward.removeEventListener("click", advanceSearchBackward);
+
+    iterateBackward.dataset.query = query.replace(
+      `page=${currentPage}`,
+      `page=${currentPage - 1}`
+    );
+    iterateForward.dataset.query = query.replace(
+      `page=${currentPage}`,
+      `page=${currentPage + 1}`
+    );
+
     const preloader = modalPage.querySelector(".preloader-wrapper");
     toggleClass(preloader, "hide");
     modalPage.addEventListener("click", closeModal);
-
     searchPage.classList.add("no-scroll");
     const wrapper = modalPage.querySelector(".wrapper");
+    wrapper.innerHTML = "";
     if (modalPage.classList.contains("hide")) {
       toggleClass(modalPage, "hide");
     }
@@ -417,50 +487,8 @@ function main() {
 
     toggleClass(preloader, "hide");
 
-    const iterateForward = modalPage.querySelector(".page-right");
-    const iterateBackward = modalPage.querySelector(".page-left");
-
-    iterateForward.addEventListener("click", async () => {
-      wrapper.innerHTML = "";
-      if (currentPage < 33) {
-        let data;
-        const newQuery = query.replace(
-          `page=${currentPage}`,
-          `page=${currentPage + 1}`
-        );
-        let ls = getLocalStorage(newQuery);
-        if (ls) {
-          data = ls;
-        } else {
-          data = await getData(newQuery);
-          if (data) {
-            setLocalStorage(query);
-          } else {
-            return;
-          }
-        }
-        currentPage++;
-        searchModal(data, newQuery);
-      }
-    });
-    iterateBackward.addEventListener("click", async () => {
-      wrapper.innerHTML = "";
-      if (currentPage - 1 !== 0) {
-        const newQuery = query.replace(
-          `page=${currentPage}`,
-          `page=${currentPage - 1}`
-        );
-        let data;
-        let ls = getLocalStorage(newQuery);
-        if (ls) {
-          data = ls;
-        } else {
-          data = await getData(newQuery);
-        }
-        currentPage--;
-        searchModal(data, newQuery);
-      }
-    });
+    iterateForward.addEventListener("click", advanceSearchForward);
+    iterateBackward.addEventListener("click", advanceSearchBackward);
   }
 
   async function advanceSearch(e) {
@@ -469,8 +497,12 @@ function main() {
     const advanceInputs = searchPage.querySelectorAll(
       ".search-section__advanced input"
     );
+    currentPage = 1;
     let query =
-      apiExtend.query.queryStart + "1" + "&" + apiExtend.query.beerPerPage;
+      apiExtend.query.queryStart +
+      `${currentPage}` +
+      "&" +
+      apiExtend.query.beerPerPage;
 
     advanceInputs.forEach((input) => {
       if (input.value !== "") {
@@ -488,26 +520,32 @@ function main() {
         }
       }
     });
+    let inputsArray = Array.from(advanceInputs);
 
-    const ls = getLocalStorage(query);
-    if (ls) {
-      data = ls;
-      console.log("Getting from localStorage");
-      console.log(ls, "localStorage");
-    } else {
-      data = await getData(query);
-      setLocalStorage(query, data);
-      console.log("this is a fetch request");
-    }
-
-    if (data.length === 0) {
-      const noResults = searchPage.querySelector(".no-results");
-      toggleClass(noResults, "hide");
+    let inputExists = inputsArray.filter((el) => el.value);
+    if (inputExists.length === 0) {
+      const noInputsMsg = searchPage.querySelector(".no-inputs-message");
+      toggleClass(noInputsMsg, "hide");
       setTimeout(() => {
-        toggleClass(noResults, "hide");
+        toggleClass(noInputsMsg, "hide");
       }, 5000);
-    } else {
-      searchModal(data, query);
+    } else if (inputExists.length > 0) {
+      const ls = getLocalStorage(query);
+      if (ls) {
+        data = ls;
+      } else {
+        data = await getData(query);
+        setLocalStorage(query, data);
+      }
+      if (data.length === 0) {
+        const noResults = searchPage.querySelector(".no-results");
+        toggleClass(noResults, "hide");
+        setTimeout(() => {
+          toggleClass(noResults, "hide");
+        }, 5000);
+      } else {
+        searchModal(data, query);
+      }
     }
   }
 
@@ -518,6 +556,20 @@ function main() {
   function renderSearchPage() {
     toggleClass(homePage, "hide");
     toggleClass(searchPage, "hide");
+    const advancedSearch = searchPage.querySelector(
+      ".search-section__advanced"
+    );
+    if (!advancedSearch.classList.contains("hide")) {
+      toggleClass(advancedSearch, "hide");
+    }
+    searchPage.classList.remove("no-scroll");
+
+    const advancedArrow = searchPage.querySelector(".advanced-arrow-toggle");
+    if (advancedArrow.classList.contains("fa-angle-up")) {
+      toggleClass(advancedArrow, "fa-angle-up");
+      toggleClass(advancedArrow, "fa-angle-down");
+    }
+
     clearInputs();
     currentPage = 1;
     const pagination = searchPage.querySelector(".pagination");

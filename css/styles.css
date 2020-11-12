@@ -130,7 +130,7 @@ section {
   position: fixed;
   top: 50vh;
   left: 1.5rem;
-  bottom: 0;
+  /* bottom: 0; */
 }
 .page-right {
   cursor: pointer;
@@ -334,10 +334,10 @@ article.info__description .info-container__header {
 }
 
 .pagination .fas {
-  position: relative;
   font-size: 2rem;
-  left: 0;
+  position: relative;
   line-height: 1.4;
+  top: auto;
 }
 
 .pagination span {
@@ -399,12 +399,14 @@ article.info__description .info-container__header {
   margin-bottom: 2rem;
 }
 
-.no-results {
+.no-results,
+.no-inputs-message {
   background-color: var(--secondaryColor);
   color: var(--primaryColor);
   width: 27rem;
   padding: 0.7rem 1rem;
   margin: 0 auto;
+  text-align: center;
 }
 
 /* Utility */
